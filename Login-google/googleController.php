@@ -31,8 +31,8 @@ public function redirectToGoogle()
                 $token = auth()->login($user);
             }
 
-            // Enviar el token al frontend (puedes redireccionar o responder con JSON)
-            return redirect('http://localhost:3000/home?token=' . $token); // Redireccionar al frontend con el token
+            // Enviar el token al frontend (El front esta preparado para chequear las credenciales sin errores de seguridad)
+            return redirect('http://localhost:3000); // Redireccionar al frontend con el token
 
         } catch (Throwable $e) {
             // Verificar si el error se debe a un correo duplicado (puedes agregar lógica más robusta aquí)

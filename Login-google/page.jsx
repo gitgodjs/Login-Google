@@ -1,29 +1,30 @@
 import { useRouter } from "next/navigation";
 
-export const Home = () => {
-  const router = useRouter();
+const checkToken = async (setUser, setUserRol) => {
+  //Get user info from token
+  const token = localStorage.getItem('token');
 
+  if(token){
+    const res = await apiFunctions.get_from_api_token("get_credentials_from_token", {}, token); //Api configurada para recibir token en el header
+    res.json().then((data) => {
+      setUser(data);    
+      setUserRol(data.rol_id);
+    });
+    toast.success('Se a iniciado sesión correctamente.')
+  }
+}
+
+const LandingPage = () => {
+
+  const [user, setUser] = useState(null);
+  const [userRol, setUserRol] = useState(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false); 
+  
   useEffect(() => {
-    const query = new URLSearchParams(window.location.search);
-    const token = query.get('token');
-    
-    if (token) {
-      // Guardar el token en el almacenamiento local
-      localStorage.setItem('token', token);
-      router.push('/'); 
-    } else {
-      console.error('No token found in URL');
-    }
-  }, [router]);
+    checkToken(setUser, setUserRol);
+  }, []);
 
-  //Use effect redireccion si no hay variable token en el localStorage
-  useEffect(() => {
-    if (!localStorage.getItem('token')) {
-      router.push('/');
-    }
-  }, [])
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL; // http://localhost:3000/api/
+  const API_URL = process.env.NEXT_PUBLIC_API_URL; // http://localhost:3000/api/
 
   return (
   <a href={`${API_URL}google-auth/redirect`} className="flex w-[80%] items-center justify-center max-w-xs mx-auto py-1 px-2 bg-white border border-gray-300 rounded-lg shadow-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors">
