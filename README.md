@@ -1,0 +1,1 @@
+This code omits specifics like the environment, route/service.php, and API endpoint serving. For more details, check out this document: https://docs.google.com/document/d/10Ab-p4GryZrjsUXuMadV6VLBSzhFrthKGWkooEn9LL8/edit?usp=sharing
